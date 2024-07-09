@@ -12,6 +12,7 @@ import Moon from "./Planets/Earth/Moon/Moon";
 import Environment from './Environment/Environment';
 import { Vector3 } from "three";
 import EarthGroup from "./Planets/Earth/EarthGroup";
+import Sun from "./Planets/Sun/Sun";
 
 /**
  * class World
@@ -28,13 +29,14 @@ export default class World
         this.time = this.experience.time;
 
         this.resources.on('ready', () => {
+            this.sun = new Sun();
             this.earth = new Earth();
             this.moon = new Moon(2, 0.01, new Vector3(0, 0, 0));
             this.earthGroup = new EarthGroup(
                 this.earth.planet.earthMesh,
                 this.earth.planet.atmosphereMesh,
                 this.moon.moon.moonMesh,
-                20,
+                150 / 3,
                 0.01
             );
 
@@ -44,6 +46,7 @@ export default class World
 
     update()
     {
+        if (this.sun) this.sun.update();
         if (this.moon) this.moon.update();
         if (this.earthGroup) this.earthGroup.update();
     }

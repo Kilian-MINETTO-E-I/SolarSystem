@@ -19,4 +19,9 @@ export default [
         type: "texture",
         path: "./textures/moon/2k_moon.jpg"
     },
+    {
+        name: "sunTexture",
+        type: "texture",
+        path: "./textures/sun/2k_sun.jpg"
+    },
 ];
