@@ -3,6 +3,7 @@
  */
 import {
     CubeTextureLoader,
+    SRGBColorSpace,
     TextureLoader
 } from "three";
 import { GLTFLoader } from "three/examples/jsm/Addons.js";
@@ -52,6 +53,8 @@ export default class Resources extends EventEmitter
     sourceLoaded(source, file)
     {
         this.items[source.name] = file;
+        this.items[source.name].colorSpace = SRGBColorSpace;
+        this.items[source.name].anisotropy = 8;
 
         this.loaded++;
 
