@@ -70,7 +70,7 @@ export default class Moon
 
     setGeometry()
     {
-        this.moon.geometry = new SphereGeometry(0.3, 32, 32);
+        this.moon.geometry = new SphereGeometry(0.27, 32, 32);
     }
 
     setMaterial()
@@ -83,7 +83,6 @@ export default class Moon
                 uSunDirection: new Uniform(new Vector3(0, 0, 0)),
                 uAtmosphereDay: new Uniform(this.atmosphereColor.atmosphereDayColor),
                 uAtmosphereTwilight: new Uniform(this.atmosphereColor.atmosphereTwilightColor),
-                uSpecularIntensity: new Uniform(32),
             }
         });
     }

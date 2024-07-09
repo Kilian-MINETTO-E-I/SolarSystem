@@ -24,4 +24,9 @@ export default [
         type: "texture",
         path: "./textures/sun/2k_sun.jpg"
     },
+    {
+        name: "mercuryTexture",
+        type: "texture",
+        path: "./textures/mercury/2k_mercury.jpg"
+    },
 ];

@@ -36,7 +36,7 @@ void main() {
     vec3 atmosphereColor = mix(uAtmosphereTwilight, uAtmosphereDay, atmosphereDayMix);
     color = mix(color, atmosphereColor, fresnel * atmosphereDayMix);
 
-    gl_FragColor = vec4(color, 1.0);
+    gl_FragColor = vec4(color, 1.);
 
     #include <tonemapping_fragment>
     #include <colorspace_fragment>
