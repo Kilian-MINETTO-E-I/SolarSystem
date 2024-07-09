@@ -98,7 +98,7 @@ export default class Moon
         /** Moon Sun Orbit */
         this.moon.orbitAngle += this.moon.orbitSpeed;
         this.moon.moonMesh.position.x =
-            -(this.moon.orbitRadius * Math.cos(this.moon.orbitAngle));
+            this.moon.orbitRadius * Math.cos(this.moon.orbitAngle);
         this.moon.moonMesh.position.z =
             this.moon.orbitRadius * Math.sin(this.moon.orbitAngle);
 
