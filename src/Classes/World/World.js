@@ -14,6 +14,7 @@ import { Vector3 } from "three";
 import EarthGroup from "./Planets/Earth/EarthGroup";
 import Sun from "./Planets/Sun/Sun";
 import Mercury from "./Planets/Mercury/Mercury";
+import Venus from "./Planets/Venus/Venus";
 
 /**
  * class World
@@ -23,18 +24,19 @@ export default class World
     /** World constructor */
     constructor()
     {
-        console.log(this);
         // Properties
         this.experience = new Experience();
         this.scene = this.experience.scene;
         this.resources = this.experience.resources;
         this.time = this.experience.time;
+        this.sunPosition = new Vector3(0, 0, 0);
 
         this.resources.on('ready', () => {
             this.sun = new Sun();
-            this.mercury = new Mercury(57.9 / 3, 0.004, new Vector3(0, 0, 0));
+            this.mercury = new Mercury(57.9 / 3, 0.004, this.sunPosition);
+            this.venus = new Venus(108.2 / 3, 0.003, this.sunPosition);
             this.earth = new Earth();
-            this.moon = new Moon(2, -0.05, new Vector3(0, 0, 0));
+            this.moon = new Moon(2, -0.05, this.sunPosition);
             this.earthGroup = new EarthGroup(
                 this.earth.planet.earthMesh,
                 this.earth.planet.atmosphereMesh,
@@ -51,6 +53,7 @@ export default class World
     {
         if (this.sun) this.sun.update();
         if (this.mercury) this.mercury.update();
+        if (this.venus) this.venus.update();
         if (this.moon) this.moon.update();
         if (this.earthGroup) this.earthGroup.update();
     }
