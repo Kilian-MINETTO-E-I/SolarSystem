@@ -16,6 +16,7 @@ import Sun from "./Planets/Sun/Sun";
 import Mercury from "./Planets/Mercury/Mercury";
 import Venus from "./Planets/Venus/Venus";
 import Mars from "./Planets/Mars/Mars";
+import Jupiter from "./Planets/Jupiter/Jupiter";
 
 /**
  * class World
@@ -34,18 +35,19 @@ export default class World
 
         this.resources.on('ready', () => {
             this.sun = new Sun();
-            this.mercury = new Mercury(57.9 / 3, 0.004, this.sunPosition);
-            this.venus = new Venus(108.2 / 3, 0.003, this.sunPosition);
+            this.mercury = new Mercury(57.9 / 2, 0.004, this.sunPosition);
+            this.venus = new Venus(108.2 / 2, 0.003, this.sunPosition);
             this.earth = new Earth();
             this.moon = new Moon(2, -0.05, this.sunPosition);
             this.earthGroup = new EarthGroup(
                 this.earth.planet.earthMesh,
                 this.earth.planet.atmosphereMesh,
                 this.moon.moon.moonMesh,
-                149.6 / 3,
+                149.6 / 2,
                 0.002
             );
-            this.mars = new Mars(227.9 / 3, 0.0018, this.sunPosition);
+            this.mars = new Mars(227.9 / 2, 0.0018, this.sunPosition);
+            this.jupiter = new Jupiter(778.3 / 2, 0.0013, this.sunPosition);
 
             this.environment = new Environment();
         });
@@ -59,5 +61,6 @@ export default class World
         if (this.earthGroup) this.earthGroup.update();
         if (this.moon) this.moon.update();
         if (this.mars) this.mars.update();
+        if (this.jupiter) this.jupiter.update();
     }
 }
