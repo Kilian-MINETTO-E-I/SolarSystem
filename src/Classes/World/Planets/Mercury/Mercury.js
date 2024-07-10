@@ -90,6 +90,9 @@ export default class Mercury
 
     update()
     {
+        /** Mercury Rotation */
+        this.mercury.mesh.rotateY(0.00646);
+
         /** Mercrury Orbit */
         this.mercury.orbitAngle += this.mercury.orbitSpeed;
         this.mercury.mesh.position.x =
@@ -97,6 +100,6 @@ export default class Mercury
         this.mercury.mesh.position.z =
             this.mercury.orbitRadius * Math.sin(this.mercury.orbitAngle);
 
-        this.mercury.material.uniforms.uSunDirection.value = this.mercury.mesh.getWorldPosition(this.sunPosition);
+        this.mercury.material.uniforms.uSunDirection.value = this.mercury.mesh.getWorldPosition(this.mercury.mesh.position);
     }
 }

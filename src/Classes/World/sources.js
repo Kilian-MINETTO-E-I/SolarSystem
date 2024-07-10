@@ -29,4 +29,14 @@ export default [
         type: "texture",
         path: "./textures/mercury/2k_mercury.jpg"
     },
+    {
+        name: "venusTexture",
+        type: "texture",
+        path: "./textures/venus/2k_venus_surface.jpg"
+    },
+    {
+        name: "venusAtmosphere",
+        type: "texture",
+        path: "./textures/venus/2k_venus_atmosphere.jpg"
+    }
 ];

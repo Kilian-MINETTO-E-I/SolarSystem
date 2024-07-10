@@ -52,7 +52,7 @@ export default class EarthGroup
     update()
     {
         /** Earth Rotation */
-        this.earthGroup.children[0].rotateY(0.04);
+        this.earthGroup.children[0].rotateY(0.01675);
 
         /** Group Orbit */
         this.orbitAngle += this.orbitSpeed;
