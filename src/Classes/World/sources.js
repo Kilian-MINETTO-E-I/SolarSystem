@@ -38,5 +38,10 @@ export default [
         name: "venusAtmosphere",
         type: "texture",
         path: "./textures/venus/2k_venus_atmosphere.jpg"
+    },
+    {
+        name: "marsTexture",
+        type: "texture",
+        path: "./textures/mars/2k_mars.jpg"
     }
 ];
