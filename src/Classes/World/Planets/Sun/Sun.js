@@ -48,7 +48,7 @@ export default class Sun
 
     setGeometry()
     {
-        this.sun.geometry = new SphereGeometry(10.9, 32, 32);
+        this.sun.geometry = new SphereGeometry(20, 32, 32);
     }
 
     setMaterial()

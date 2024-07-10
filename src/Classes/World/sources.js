@@ -43,5 +43,10 @@ export default [
         name: "marsTexture",
         type: "texture",
         path: "./textures/mars/2k_mars.jpg"
+    },
+    {
+        name: "jupiterTexture",
+        type: "texture",
+        path: "./textures/jupiter/2k_jupiter.jpg"
     }
 ];

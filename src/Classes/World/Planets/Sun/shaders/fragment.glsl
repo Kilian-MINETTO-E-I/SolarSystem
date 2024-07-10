@@ -7,7 +7,7 @@ uniform float uFrequency;
 varying vec2 vUv;
 
 // Includes
-#include ./includes/simplexNoise3D.glsl;
+#include ../../shaders/includes/simplexNoise3D.glsl;
 
 // Functions
 
