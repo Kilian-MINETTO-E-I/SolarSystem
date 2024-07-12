@@ -58,5 +58,15 @@ export default [
         name: "starsTexture",
         type: "texture",
         path: "./textures/stars/3.png"
+    },
+    {
+        name: "ringTexture",
+        type: "texture",
+        path: "./textures/saturn/saturn_ring/2k_saturn_ring_alpha.png"
+    },
+    {
+        name: "saturnTexture",
+        type: "texture",
+        path: "./textures/saturn/2k_saturn.jpg"
     }
 ];
