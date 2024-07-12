@@ -62,5 +62,6 @@ export default class World
         if (this.moon) this.moon.update();
         if (this.mars) this.mars.update();
         if (this.jupiter) this.jupiter.update();
+        if (this.environment) this.environment.update();
     }
 }

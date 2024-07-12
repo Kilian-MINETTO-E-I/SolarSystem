@@ -92,6 +92,9 @@ export default class Jupiter
 
     update()
     {
+        /** Jupiter Rotation */
+        this.jupiter.mesh.rotateY(0.0047051);
+
         /** Jupiter Orbit */
         this.jupiter.orbitAngle += this.jupiter.orbitSpeed;
         this.jupiter.mesh.position.x =

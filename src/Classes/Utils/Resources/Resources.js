@@ -4,9 +4,12 @@
 import {
     CubeTextureLoader,
     SRGBColorSpace,
-    TextureLoader
+    TextureLoader,
 } from "three";
-import { GLTFLoader } from "three/examples/jsm/Addons.js";
+import {
+    GLTFLoader,
+    RGBELoader
+} from "three/examples/jsm/Addons.js";
 
 import EventEmitter from "../Events/EventEmitter";
 
@@ -40,6 +43,7 @@ export default class Resources extends EventEmitter
         this.loaders.gltfLoader = new GLTFLoader();
         this.loaders.textureLoader = new TextureLoader();
         this.loaders.cubeTextureLoader = new CubeTextureLoader();
+        this.loaders.rgbeTextureLoader = new RGBELoader();
     }
 
     startLoading()
@@ -53,9 +57,6 @@ export default class Resources extends EventEmitter
     sourceLoaded(source, file)
     {
         this.items[source.name] = file;
-        this.items[source.name].colorSpace = SRGBColorSpace;
-        this.items[source.name].anisotropy = 8;
-
         this.loaded++;
 
         if (this.loaded === this.toLoad) {
@@ -78,6 +79,8 @@ export default class Resources extends EventEmitter
                 this.loaders.textureLoader.load(
                     source.path,
                     (file) => {
+                        file.colorSpace = SRGBColorSpace;
+                        file.anisotropy = 8;
                         this.sourceLoaded(source, file);
                     }
                 );
@@ -90,6 +93,14 @@ export default class Resources extends EventEmitter
                     }
                 );
                 break;
+            case "background":
+                this.loaders.rgbeTextureLoader.load(
+                    source.path,
+                    (file) => {
+                        this.sourceLoaded(source, file);
+                        console.log(file)
+                    }
+                )
         }
     }
 }
