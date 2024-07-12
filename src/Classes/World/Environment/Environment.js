@@ -1,8 +1,10 @@
 import {
+    AmbientLight,
     DirectionalLight,
 } from 'three'
 
 import Experience from "../../Experience";
+import Stars from './Stars/Stars';
 
 /**
  * class Environment
@@ -13,6 +15,7 @@ export default class Environment
     {
         this.experience = new Experience();
         this.scene = this.experience.scene;
+        this.resources = this.experience.resources;
         this.debug = this.experience.debug;
 
         if (this.debug.active) {
@@ -20,6 +23,11 @@ export default class Environment
         }
 
         this.setSunLight();
+
+        this.scene.background = this.resources.items.spaceTexture;
+
+        this.stars = new Stars();
+        this.scene.add(this.stars.stars.points);
     }
 
     setSunLight()
@@ -29,7 +37,7 @@ export default class Environment
         this.sunLight.shadow.camera.far = 15;
         this.sunLight.shadow.mapSize.set(1024, 1024);
         this.sunLight.shadow.normalBias= 0.05;
-        this.sunLight.position.set(3, 3, -2.25);
+        this.sunLight.position.set(0, 0, 0);
         this.scene.add(this.sunLight);
 
         // Debug
@@ -40,5 +48,10 @@ export default class Environment
             this.debugFolder.add(this.sunLight.position, 'y').min(-5).max(5).step(0.001).name('Sun Light Position Y');
             this.debugFolder.add(this.sunLight.position, 'z').min(-5).max(5).step(0.001).name('Sun Light Position Z');
         }
+    }
+
+    update()
+    {
+        if (this.stars) this.stars.update();
     }
 }

@@ -48,5 +48,15 @@ export default [
         name: "jupiterTexture",
         type: "texture",
         path: "./textures/jupiter/2k_jupiter.jpg"
+    },
+    {
+        name: "spaceTexture",
+        type: "background",
+        path: "./textures/space/2k_stars_milky_way.hdr"
+    },
+    {
+        name: "starsTexture",
+        type: "texture",
+        path: "./textures/stars/3.png"
     }
 ];
