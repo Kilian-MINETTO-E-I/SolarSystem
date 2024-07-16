@@ -75,7 +75,7 @@ export default class Mercury
 
     setGeometry()
     {
-        this.mercury.geometry = new SphereGeometry(0.383, 32, 32);
+        this.mercury.geometry = new SphereGeometry(0.9958, 32, 32);
     }
 
     setMaterial()
@@ -120,7 +120,7 @@ export default class Mercury
     update()
     {
         /** Mercury Rotation */
-        this.mercury.mesh.rotateY(0.00646);
+        this.mercury.mesh.rotateY(0.000646);
 
         /** Mercrury Orbit */
         this.mercury.orbitAngle += this.mercury.orbitSpeed;

@@ -70,7 +70,7 @@ export default class Moon
 
     setGeometry()
     {
-        this.moon.geometry = new SphereGeometry(0.27, 32, 32);
+        this.moon.geometry = new SphereGeometry(0.702, 32, 32);
     }
 
     setMaterial()

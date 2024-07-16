@@ -68,7 +68,7 @@ export default class Venus
 
     setGeometry()
     {
-        this.venus.geometry = new SphereGeometry(0.949, 32, 32);
+        this.venus.geometry = new SphereGeometry(2.4674, 32, 32);
     }
 
     setVenusColorMaterial()
@@ -109,7 +109,7 @@ export default class Venus
     update()
     {
         /** Venus Rotation */
-        this.venus.mesh.rotateY(-0.0011675);
+        this.venus.mesh.rotateY(-0.00011675);
         this.venus.atmosphereMesh.rotateY(-0.0011675);
 
         /** Venus Orbit */

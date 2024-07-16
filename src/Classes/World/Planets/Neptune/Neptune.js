@@ -75,7 +75,7 @@ export default class Neptune
 
     setGeometry()
     {
-        this.neptune.geometry = new SphereGeometry(3.88, 32, 32);
+        this.neptune.geometry = new SphereGeometry(10.088, 32, 32);
     }
 
     setMaterial()

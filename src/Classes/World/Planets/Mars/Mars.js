@@ -73,7 +73,7 @@ export default class Mars
 
     setGeometry()
     {
-        this.mars.geometry = new SphereGeometry(0.532, 32, 32);
+        this.mars.geometry = new SphereGeometry(1.3, 32, 32);
     }
 
     setMaterial()

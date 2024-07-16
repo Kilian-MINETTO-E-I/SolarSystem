@@ -58,7 +58,7 @@ export default class Stars
 
     setStarsParams()
     {
-        const count = 5000;
+        const count = 100000;
         const positionArray = new Float32Array(count * 3);
         const pointSize = new Float32Array(count);
 
@@ -68,7 +68,7 @@ export default class Stars
             const radius = 0.5 + Math.random();
 
             const spherical = new Spherical(
-                radius * (0.75 + Math.random() * 500),
+                5 * (radius * (0.75 + Math.random() * 5000)),
                 Math.random() * Math.PI,
                 Math.random() * Math.PI * 2
             );
