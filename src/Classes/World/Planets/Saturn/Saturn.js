@@ -78,8 +78,6 @@ export default class Saturn
 
         this.saturn.ringMesh.rotation.x = -26;
         this.scene.add(this.saturn.ringMesh);
-
-        console.log(this.saturn.mesh);
     }
 
     setSaturnGeometry()
