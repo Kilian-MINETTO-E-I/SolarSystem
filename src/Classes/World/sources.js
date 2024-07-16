@@ -68,5 +68,10 @@ export default [
         name: "saturnTexture",
         type: "texture",
         path: "./textures/saturn/2k_saturn.jpg"
+    },
+    {
+        name: "neptuneTexture",
+        type: "texture",
+        path: "./textures/neptune/2k_neptune.jpg"
     }
 ];

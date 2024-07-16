@@ -126,6 +126,6 @@ export default class Venus
         this.venus.atmosphereMesh.position.z =
             this.venus.orbitRadius * Math.sin(this.venus.orbitAngle);
 
-            this.venus.atmosphereMaterial.uniforms.uSunDirection.value = this.venus.atmosphereMesh.getWorldPosition(this.venus.atmosphereMesh.position);
+        this.venus.atmosphereMaterial.uniforms.uSunDirection.value = this.venus.atmosphereMesh.getWorldPosition(this.venus.atmosphereMesh.position);
     }
 }
