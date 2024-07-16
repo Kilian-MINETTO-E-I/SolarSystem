@@ -3,6 +3,7 @@
  */
 // ThreeJs
 import {
+    BackSide,
     Color,
     DoubleSide,
     Mesh,
@@ -22,6 +23,8 @@ import saturnVertexShader from './shaders/saturn/vertex.glsl';
 import saturnFragmentShader from './shaders/saturn/fragment.glsl';
 import ringVertexShader from './shaders/rings/vertex.glsl';
 import ringFragmentShader from './shaders/rings/fragment.glsl';
+import atmosphereVertexShader from './shaders/atmosphere/vertex.glsl';
+import atmosphereFragmentShader from './shaders/atmosphere/fragment.glsl';
 
 /**
  * class Saturn
@@ -73,11 +76,16 @@ export default class Saturn
         this.setRingGeometry();
         this.setRingMaterial();
         this.setRingMesh();
+        this.setAtmosphereMaterial();
+        this.setAtmosphereMesh();
 
         this.scene.add(this.saturn.mesh);
 
         this.saturn.ringMesh.rotation.x = -26;
         this.scene.add(this.saturn.ringMesh);
+
+        this.saturn.atmosphereMesh.scale.set(1.05, 1.05, 1.05);
+        this.scene.add(this.saturn.atmosphereMesh);
     }
 
     setSaturnGeometry()
@@ -129,6 +137,26 @@ export default class Saturn
         this.saturn.ringMesh = new Mesh(this.saturn.ringGeometry, this.saturn.ringMaterial);
     }
 
+    setAtmosphereMaterial()
+    {
+        this.saturn.atmosphereMaterial = new ShaderMaterial({
+            vertexShader: atmosphereVertexShader,
+            fragmentShader: atmosphereFragmentShader,
+            uniforms: {
+                uSunDirection: new Uniform(new Vector3(0, 0, 0)),
+                uAtmosphereDay: new Uniform(this.atmosphereColor.atmosphereDayColor),
+                uAtmosphereTwilight: new Uniform(this.atmosphereColor.atmosphereTwilightColor),
+            },
+            side: BackSide,
+            transparent: true
+        });
+    }
+
+    setAtmosphereMesh()
+    {
+        this.saturn.atmosphereMesh = new Mesh(this.saturn.geometry, this.saturn.atmosphereMaterial);
+    }
+
     update()
     {
         /** Saturn rotation */
@@ -144,7 +172,7 @@ export default class Saturn
         this.saturn.mesh.position.z =
         this.saturn.orbitRadius * Math.sin(this.saturn.orbitAngle);
 
-        /** Saturn Orbit */
+        /** Saturn Ring Orbit */
         this.saturn.ringOrbitAngle += this.saturn.ringOrbitSpeed;
         this.saturn.ringMesh.position.x =
             -(this.saturn.ringOrbitRadius * Math.cos(this.saturn.ringOrbitAngle));
@@ -152,5 +180,12 @@ export default class Saturn
         this.saturn.ringOrbitRadius * Math.sin(this.saturn.ringOrbitAngle);
 
         this.saturn.material.uniforms.uSunDirection.value = this.saturn.mesh.getWorldPosition(this.saturn.mesh.position);
+
+        this.saturn.atmosphereMesh.position.x =
+            -(this.saturn.orbitRadius * Math.cos(this.saturn.orbitAngle));
+        this.saturn.atmosphereMesh.position.z =
+            this.saturn.orbitRadius * Math.sin(this.saturn.orbitAngle);
+
+        this.saturn.atmosphereMaterial.uniforms.uSunDirection.value = this.saturn.atmosphereMesh.getWorldPosition(this.saturn.atmosphereMesh.position);
     }
 }
