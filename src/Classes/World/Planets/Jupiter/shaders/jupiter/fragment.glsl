@@ -12,7 +12,7 @@ varying vec3 vNormal;
 varying vec3 vPosition;
 
 // Includes
-#include ../../shaders/includes/simplexNoise3D.glsl
+#include ../../../shaders/includes/simplexNoise3D.glsl
 
 // Functions
 

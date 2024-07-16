@@ -3,6 +3,7 @@
  */
 // ThreeJs
 import {
+    BackSide,
     Color,
     Mesh,
     ShaderMaterial,
@@ -15,8 +16,10 @@ import {
 import Experience from "../../../Experience";
 
 // Shaders
-import vertexShader from './shaders/vertex.glsl';
-import fragmentShader from './shaders/fragment.glsl';
+import vertexShader from './shaders/jupiter/vertex.glsl';
+import fragmentShader from './shaders/jupiter/fragment.glsl';
+import atmosphereVertexShader from './shaders/atmosphere/vertex.glsl';
+import atmosphereFragmentShader from './shaders/atmosphere/fragment.glsl';
 
 /**
  * class Jupiter
@@ -59,9 +62,14 @@ export default class Jupiter
         /** Functions */
         this.setGeometry();
         this.setMaterial();
+        this.setAtmosphereMaterial();
         this.setMesh();
+        this.setAtmosphereMesh();
 
         this.scene.add(this.jupiter.mesh);
+
+        this.jupiter.atmosphereMesh.scale.set(1.05, 1.05, 1.05);
+        this.scene.add(this.jupiter.atmosphereMesh);
     }
 
     setGeometry()
@@ -90,6 +98,26 @@ export default class Jupiter
         this.jupiter.mesh = new Mesh(this.jupiter.geometry, this.jupiter.material);
     }
 
+    setAtmosphereMaterial()
+    {
+        this.jupiter.atmosphereMaterial = new ShaderMaterial({
+            vertexShader: atmosphereVertexShader,
+            fragmentShader: atmosphereFragmentShader,
+            uniforms: {
+                uSunDirection: new Uniform(new Vector3(0, 0, 0)),
+                uAtmosphereDay: new Uniform(this.atmosphereColor.atmosphereDayColor),
+                uAtmosphereTwilight: new Uniform(this.atmosphereColor.atmosphereTwilightColor),
+            },
+            side: BackSide,
+            transparent: true
+        });
+    }
+
+    setAtmosphereMesh()
+    {
+        this.jupiter.atmosphereMesh = new Mesh(this.jupiter.geometry, this.jupiter.atmosphereMaterial);
+    }
+
     update()
     {
         /** Jupiter Rotation */
@@ -103,5 +131,12 @@ export default class Jupiter
             this.jupiter.orbitRadius * Math.sin(this.jupiter.orbitAngle);
 
         this.jupiter.material.uniforms.uSunDirection.value = this.jupiter.mesh.getWorldPosition(this.jupiter.mesh.position);
+
+        this.jupiter.atmosphereMesh.position.x =
+            -(this.jupiter.orbitRadius * Math.cos(this.jupiter.orbitAngle));
+        this.jupiter.atmosphereMesh.position.z =
+            this.jupiter.orbitRadius * Math.sin(this.jupiter.orbitAngle);
+
+        this.jupiter.atmosphereMaterial.uniforms.uSunDirection.value = this.jupiter.atmosphereMesh.getWorldPosition(this.jupiter.atmosphereMesh.position);
     }
 }

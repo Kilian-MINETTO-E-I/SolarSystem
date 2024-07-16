@@ -3,6 +3,7 @@
  */
 // ThreeJs
 import {
+    BackSide,
     Color,
     Mesh,
     ShaderMaterial,
@@ -15,8 +16,10 @@ import {
 import Experience from '../../../Experience';
 
 // Shaders
-import vertexShader from './shaders/vertex.glsl';
-import fragmentShader from './shaders/fragment.glsl';
+import vertexShader from './shaders/mars/vertex.glsl';
+import fragmentShader from './shaders/mars/fragment.glsl';
+import atmosphereVertexShader from './shaders/atmosphere/vertex.glsl';
+import atmosphereFragmentShader from './shaders/atmosphere/fragment.glsl';
 
 /**
  * class Mars
@@ -58,9 +61,14 @@ export default class Mars
         /** Functions */
         this.setGeometry();
         this.setMaterial();
+        this.setAtmosphereMaterial();
         this.setMesh();
+        this.setAtmosphereMesh();
 
         this.scene.add(this.mars.mesh);
+
+        this.mars.atmosphereMesh.scale.set(1.06, 1.06, 1.06);
+        this.scene.add(this.mars.atmosphereMesh);
     }
 
     setGeometry()
@@ -87,6 +95,26 @@ export default class Mars
         this.mars.mesh = new Mesh(this.mars.geometry, this.mars.material);
     }
 
+    setAtmosphereMaterial()
+    {
+        this.mars.atmosphereMaterial = new ShaderMaterial({
+            vertexShader: atmosphereVertexShader,
+            fragmentShader: atmosphereFragmentShader,
+            uniforms: {
+                uSunDirection: new Uniform(new Vector3(0, 0, 0)),
+                uAtmosphereDay: new Uniform(this.atmosphereColor.atmosphereDayColor),
+                uAtmosphereTwilight: new Uniform(this.atmosphereColor.atmosphereTwilightColor),
+            },
+            side: BackSide,
+            transparent: true
+        });
+    }
+
+    setAtmosphereMesh()
+    {
+        this.mars.atmosphereMesh = new Mesh(this.mars.geometry, this.mars.atmosphereMaterial);
+    }
+
     update()
     {
         /** Mars Rotation */
@@ -100,5 +128,12 @@ export default class Mars
             this.mars.orbitRadius * Math.sin(this.mars.orbitAngle);
 
         this.mars.material.uniforms.uSunDirection.value = this.mars.mesh.getWorldPosition(this.mars.mesh.position);
+
+        this.mars.atmosphereMesh.position.x =
+            -(this.mars.orbitRadius * Math.cos(this.mars.orbitAngle));
+        this.mars.atmosphereMesh.position.z =
+            this.mars.orbitRadius * Math.sin(this.mars.orbitAngle);
+
+        this.mars.atmosphereMaterial.uniforms.uSunDirection.value = this.mars.atmosphereMesh.getWorldPosition(this.mars.atmosphereMesh.position);
     }
 }
