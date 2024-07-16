@@ -70,6 +70,11 @@ export default [
         path: "./textures/saturn/2k_saturn.jpg"
     },
     {
+        name: "uranusTexture",
+        type: "texture",
+        path: "./textures/uranus/2k_uranus.jpg"
+    },
+    {
         name: "neptuneTexture",
         type: "texture",
         path: "./textures/neptune/2k_neptune.jpg"
