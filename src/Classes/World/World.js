@@ -19,6 +19,7 @@ import Mars from "./Planets/Mars/Mars";
 import Jupiter from "./Planets/Jupiter/Jupiter";
 import Saturn from "./Planets/Saturn/Saturn";
 import Neptune from "./Planets/Neptune/Neptune";
+import Uranus from "./Planets/Uranus/Uranus";
 
 /**
  * class World
@@ -51,6 +52,7 @@ export default class World
             this.mars = new Mars(227.9 / 2, 0.0018, this.sunPosition);
             this.jupiter = new Jupiter(778.3 / 2, 0.0013, this.sunPosition);
             this.saturn = new Saturn(1433.5 / 2, 0.001, this.sunPosition);
+            this.uranus = new Uranus(2872.5 / 2, 0.0007, this.sunPosition);
             this.neptune = new Neptune(4495.1 / 2, 0.0005, this.sunPosition);
 
             this.environment = new Environment();
@@ -67,6 +69,7 @@ export default class World
         if (this.mars) this.mars.update();
         if (this.jupiter) this.jupiter.update();
         if (this.saturn) this.saturn.update();
+        if (this.uranus) this.uranus.update();
         if (this.neptune) this.neptune.update();
 
         if (this.environment) this.environment.update();
