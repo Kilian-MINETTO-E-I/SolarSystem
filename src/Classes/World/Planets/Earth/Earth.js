@@ -69,7 +69,7 @@ export default class Earth
 
     setGeometry()
     {
-        this.planet.geometry = new SphereGeometry(1, 32, 32);
+        this.planet.geometry = new SphereGeometry(2.6, 32, 32);
     }
 
     setEarthMaterial()

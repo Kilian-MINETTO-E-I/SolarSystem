@@ -74,7 +74,7 @@ export default class Jupiter
 
     setGeometry()
     {
-        this.jupiter.geometry = new SphereGeometry(11.21, 32, 32);
+        this.jupiter.geometry = new SphereGeometry(29.146, 32, 32);
     }
 
     setMaterial()

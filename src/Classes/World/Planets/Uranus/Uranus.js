@@ -75,7 +75,7 @@ export default class Uranus
 
     setGeometry()
     {
-        this.uranus.geometry = new SphereGeometry(4.01, 32, 32);
+        this.uranus.geometry = new SphereGeometry(10.426, 32, 32);
     }
 
     setMaterial()

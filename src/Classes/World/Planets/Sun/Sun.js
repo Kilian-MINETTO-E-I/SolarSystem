@@ -48,7 +48,7 @@ export default class Sun
 
     setGeometry()
     {
-        this.sun.geometry = new SphereGeometry(20, 32, 32);
+        this.sun.geometry = new SphereGeometry(10, 32, 32);
     }
 
     setMaterial()
@@ -72,7 +72,7 @@ export default class Sun
     update()
     {
         /** Sun Rotation */
-        this.sun.mesh.rotateY(0.04400);
+        this.sun.mesh.rotateY(0.0004400);
 
         // Update Time
         this.sun.material.uniforms.uTime.value += Math.sin(this.sun.noiseSpeed / 100) * -(Math.cos(this.sun.noiseSpeed / 100));

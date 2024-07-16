@@ -90,7 +90,7 @@ export default class Saturn
 
     setSaturnGeometry()
     {
-        this.saturn.geometry = new SphereGeometry(9.45, 32, 32);
+        this.saturn.geometry = new SphereGeometry(24.57, 32, 32);
     }
 
     setSaturnMaterial()
@@ -114,7 +114,7 @@ export default class Saturn
 
     setRingGeometry()
     {
-        this.saturn.ringGeometry = new RingGeometry(16, 20, 32, 3, Math.PI, Math.PI * 2);
+        this.saturn.ringGeometry = new RingGeometry(32, 40, 32, 3, Math.PI, Math.PI * 2);
     }
 
     setRingMaterial()
