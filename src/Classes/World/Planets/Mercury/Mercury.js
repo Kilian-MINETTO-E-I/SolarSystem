@@ -3,139 +3,38 @@
  */
 // ThreeJs
 import {
-    BackSide,
-    Color,
-    Mesh,
-    ShaderMaterial,
-    SphereGeometry,
-    Uniform,
     Vector3
 } from 'three';
 
-// Experience
-import Experience from '../../../Experience';
-
-
-// Shaders
-import vertexShader from './shaders/mercury/vertex.glsl';
-import fragmentShader from './shaders/mercury/fragment.glsl';
-import atmosphereVertexShader from './shaders/atmosphere/vertex.glsl';
-import atmosphereFragmentShader from './shaders/atmosphere/fragment.glsl';
+// Planet
+import Planet from '../Planet';
 
 /**
  * class Mercury
  */
-export default class Mercury
+export default class Mercury extends Planet
 {
-    constructor(
-        orbitRadius,
-        orbitSpeed,
-        sunPosition
-    )
+    /** Mercury constructor */
+    constructor()
     {
-        /** Setup */
-        this.experience = new Experience();
-        this.scene = this.experience.scene;
-        this.resources = this.experience.resources;
+        super(
+            0.9958, // Planet Size
+            0.000646, // Planet Rotation Speed
+            1.02, // Atmosphere Size Scale
+            new Vector3(0, 0, 0), // Sun Direction
+            '#DDDDDD', // Atmosphere Day Color
+            '#333333', // Atmosphere Twilight Color
+            0, // Clouds Intensity
+        );
 
-        // Properties
-        this.orbitRadius = orbitRadius;
-        this.orbitSpeed = orbitSpeed;
-        this.sunPosition = sunPosition;
+        /** Orbit Parameters */
+        this.orbit.orbitRadius = 54.9 / 4;
+        this.orbit.orbitSpeed = 0.004;
 
-        this.mercury = {
-            orbitRadius: this.orbitRadius,
-            orbitAngle: 0,
-            orbitSpeed: this.orbitSpeed
-        };
-
-        this.atmosphereColor = {
-            atmosphereDayColor: new Color('#DDDDDD'),
-            atmosphereTwilightColor: new Color('#333333'),
-        };
-
-        /** Textures */
-        this.textures = {
-            mercuryTexture: this.resources.items.mercuryTexture
-        };
-
-        /** Functions */
-        this.setGeometry()
-        this.setMaterial();
-        this.setAtmophereMaterial();
-        this.setMesh();
-        this.setAtmosphereMesh();
-
-        this.scene.add(this.mercury.mesh);
-
-        this.mercury.atmosphereMesh.scale.set(1.04, 1.04, 1.04);
-
-        this.scene.add(this.mercury.atmosphereMesh);
-    }
-
-    setGeometry()
-    {
-        this.mercury.geometry = new SphereGeometry(0.9958, 32, 32);
-    }
-
-    setMaterial()
-    {
-        this.mercury.material = new ShaderMaterial({
-            vertexShader,
-            fragmentShader,
-            uniforms: {
-                uTexture: new Uniform(this.textures.mercuryTexture),
-                uSunDirection: new Uniform(new Vector3(0, 0, 0)),
-                uAtmosphereDay: new Uniform(this.atmosphereColor.atmosphereDayColor),
-                uAtmosphereTwilight: new Uniform(this.atmosphereColor.atmosphereTwilightColor),
-            }
-        });
-    }
-
-    setMesh()
-    {
-        this.mercury.mesh = new Mesh(this.mercury.geometry, this.mercury.material);
-    }
-
-    setAtmophereMaterial()
-    {
-        this.mercury.atmosphereMaterial = new ShaderMaterial({
-            vertexShader: atmosphereVertexShader,
-            fragmentShader: atmosphereFragmentShader,
-            uniforms: {
-                uSunDirection: new Uniform(new Vector3(0, 0, 0)),
-                uAtmosphereDay: new Uniform(this.atmosphereColor.atmosphereDayColor),
-                uAtmosphereTwilight: new Uniform(this.atmosphereColor.atmosphereTwilightColor),
-            },
-            side: BackSide,
-            transparent: true
-        });
-    }
-
-    setAtmosphereMesh()
-    {
-        this.mercury.atmosphereMesh = new Mesh(this.mercury.geometry, this.mercury.atmosphereMaterial);
-    }
-
-    update()
-    {
-        /** Mercury Rotation */
-        this.mercury.mesh.rotateY(0.000646);
-
-        /** Mercrury Orbit */
-        this.mercury.orbitAngle += this.mercury.orbitSpeed;
-        this.mercury.mesh.position.x =
-            -(this.mercury.orbitRadius * Math.cos(this.mercury.orbitAngle));
-        this.mercury.mesh.position.z =
-            this.mercury.orbitRadius * Math.sin(this.mercury.orbitAngle);
-
-        this.mercury.material.uniforms.uSunDirection.value = this.mercury.mesh.getWorldPosition(this.mercury.mesh.position);
-
-        this.mercury.atmosphereMesh.position.x =
-            -(this.mercury.orbitRadius * Math.cos(this.mercury.orbitAngle));
-        this.mercury.atmosphereMesh.position.z =
-            this.mercury.orbitRadius * Math.sin(this.mercury.orbitAngle);
-
-        this.mercury.atmosphereMaterial.uniforms.uSunDirection.value = this.mercury.atmosphereMesh.getWorldPosition(this.mercury.atmosphereMesh.position);
+        this._setTexture(
+            this.resources.items.mercuryTexture,
+            this.defaultTexture,
+            this.defaultTexture
+        );
     }
 }
