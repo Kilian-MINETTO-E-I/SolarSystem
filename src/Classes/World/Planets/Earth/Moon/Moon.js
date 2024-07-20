@@ -1,106 +1,40 @@
 /**
  * Imports
  */
-// ThreeJS
+// ThreeJs
 import {
-    SphereGeometry,
-    Mesh,
-    Color,
-    ShaderMaterial,
-    Uniform,
     Vector3
-} from "three";
+} from 'three';
 
-// Experience
-import Experience from "../../../../Experience";
+// Planet
+import Planet from '../../Planet';
 
-// Shaders
-import vertexShader from './shaders/vertex.glsl';
-import fragmentShader from './shaders/fragment.glsl';
-
-// class Moon
-export default class Moon
+/**
+ * class Moon
+ */
+export default class Moon extends Planet
 {
-    constructor(
-        orbitRadius,
-        orbitSpeed,
-        sunPosition
-    )
+    /** Moon constructor */
+    constructor()
     {
-        // Setup
-        this.experience = new Experience();
-        this.scene = this.experience.scene;
-        this.resources = this.experience.resources;
+        super(
+            0.702, // Planet Size
+            -0.015, // Planet Rotation Speed
+            1.01, // Atmosphere Size Scale
+            new Vector3(0, 0, 0), // Sun Direction
+            '#AAAAAA', // Atmosphere Day Color
+            '#222222', // Atmosphere Twilight Color
+            0, // Clouds Intensity
+        );
 
-        // Properties
-        this.orbitRadius = orbitRadius;
-        this.orbitSpeed = orbitSpeed;
-        this.sunPosition = sunPosition;
+        /** Orbit Parameters */
+        this.orbit.moon.orbitRadius = 4;
+        this.orbit.moon.orbitSpeed = 0.05;
 
-        // Moon
-        this.moon = {
-            geometry: null,
-            moonMaterial: null,
-            moonMesh: null,
-            atmosphereMaterial: null,
-            atmosphereMesh: null,
-            orbitRadius: this.orbitRadius,
-            orbitAngle: 0,
-            orbitSpeed: this.orbitSpeed,
-        };
-
-        // Moon Texture
-        this.textures = {
-            moonTexture: this.resources.items.moonTexture,
-        };
-
-        // Moon Atmosphere
-        this.atmosphereColor = {
-            atmosphereDayColor: new Color("#00AAFF"),
-            atmosphereTwilightColor: new Color("#222222")
-        };
-
-        // Functions
-        this.setGeometry();
-        this.setMaterial();
-        this.setMesh();
-
-        this.moon.moonMesh.rotateZ(-0.015);
-    }
-
-    setGeometry()
-    {
-        this.moon.geometry = new SphereGeometry(0.702, 32, 32);
-    }
-
-    setMaterial()
-    {
-        this.moon.moonMaterial = new ShaderMaterial({
-            vertexShader,
-            fragmentShader,
-            uniforms: {
-                uTexture: new Uniform(this.textures.moonTexture),
-                uSunDirection: new Uniform(new Vector3(0, 0, 0)),
-                uAtmosphereDay: new Uniform(this.atmosphereColor.atmosphereDayColor),
-                uAtmosphereTwilight: new Uniform(this.atmosphereColor.atmosphereTwilightColor),
-            }
-        });
-    }
-
-    setMesh()
-    {
-        this.moon.moonMesh = new Mesh(this.moon.geometry, this.moon.moonMaterial);
-    }
-
-    update()
-    {
-        /** Moon Sun Orbit */
-        this.moon.orbitAngle += this.moon.orbitSpeed;
-        this.moon.moonMesh.position.x =
-            this.moon.orbitRadius * Math.cos(this.moon.orbitAngle);
-        this.moon.moonMesh.position.z =
-            this.moon.orbitRadius * Math.sin(this.moon.orbitAngle);
-
-        this.moon.moonMaterial.uniforms.uSunDirection.value = this.moon.moonMesh.getWorldPosition(this.sunPosition);
+        this._setTexture(
+            this.resources.items.moonTexture,
+            this.defaultTexture,
+            this.defaultTexture
+        );
     }
 }

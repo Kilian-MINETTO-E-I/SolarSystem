@@ -1,16 +1,13 @@
 /**
  * Imports
  */
+// ThreeJs
+import { Vector3 } from "three";
+
 // Experience
 import Experience from "../Experience";
 
 // Planets
-import Earth from "./Planets/Earth/Earth";
-import Moon from "./Planets/Earth/Moon/Moon";
-
-// Environment
-import Environment from './Environment/Environment';
-import { Vector3 } from "three";
 import EarthGroup from "./Planets/Earth/EarthGroup";
 import Sun from "./Planets/Sun/Sun";
 import Mercury from "./Planets/Mercury/Mercury";
@@ -20,6 +17,9 @@ import Jupiter from "./Planets/Jupiter/Jupiter";
 import Saturn from "./Planets/Saturn/Saturn";
 import Neptune from "./Planets/Neptune/Neptune";
 import Uranus from "./Planets/Uranus/Uranus";
+
+// Environment
+import Environment from './Environment/Environment';
 
 /**
  * class World
@@ -38,22 +38,14 @@ export default class World
 
         this.resources.on('ready', () => {
             this.sun = new Sun();
-            this.mercury = new Mercury(57.9 / 4, 0.004, this.sunPosition);
-            this.venus = new Venus(108.2 / 4, 0.003, this.sunPosition);
-            this.earth = new Earth();
-            this.moon = new Moon(4, -0.05, this.sunPosition);
-            this.earthGroup = new EarthGroup(
-                this.earth.planet.earthMesh,
-                this.earth.planet.atmosphereMesh,
-                this.moon.moon.moonMesh,
-                149.6 / 4,
-                0.0017
-            );
-            this.mars = new Mars(227.9 / 4, 0.0018, this.sunPosition);
-            this.jupiter = new Jupiter(778.3 / 4, 0.0013, this.sunPosition);
-            this.saturn = new Saturn(1433.5 / 4, 0.001, this.sunPosition);
-            this.uranus = new Uranus(2872.5 / 4, 0.0007, this.sunPosition);
-            this.neptune = new Neptune(4495.1 / 5, 0.0005, this.sunPosition);
+            this.mercury = new Mercury();
+            this.venus = new Venus();
+            this.earthGroup = new EarthGroup();
+            this.mars = new Mars();
+            this.jupiter = new Jupiter();
+            this.saturn = new Saturn();
+            this.uranus = new Uranus();
+            this.neptune = new Neptune();
 
             this.environment = new Environment();
         });
@@ -65,7 +57,6 @@ export default class World
         if (this.mercury) this.mercury.update();
         if (this.venus) this.venus.update();
         if (this.earthGroup) this.earthGroup.update();
-        if (this.moon) this.moon.update();
         if (this.mars) this.mars.update();
         if (this.jupiter) this.jupiter.update();
         if (this.saturn) this.saturn.update();

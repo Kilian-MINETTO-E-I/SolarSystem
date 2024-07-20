@@ -3,128 +3,73 @@
  */
 // ThreeJs
 import {
-    BackSide,
-    Color,
     DoubleSide,
     Mesh,
-    MeshStandardMaterial,
     RingGeometry,
     ShaderMaterial,
-    SphereGeometry,
     Uniform,
     Vector3
-} from "three";
+} from 'three';
 
-// Experience
-import Experience from "../../../Experience";
+// Planet
+import Planet from '../Planet';
 
 // Shaders
-import saturnVertexShader from './shaders/saturn/vertex.glsl';
-import saturnFragmentShader from './shaders/saturn/fragment.glsl';
 import ringVertexShader from './shaders/rings/vertex.glsl';
 import ringFragmentShader from './shaders/rings/fragment.glsl';
-import atmosphereVertexShader from './shaders/atmosphere/vertex.glsl';
-import atmosphereFragmentShader from './shaders/atmosphere/fragment.glsl';
 
 /**
  * class Saturn
  */
-export default class Saturn
+export default class Saturn extends Planet
 {
     /** Saturn constructor */
-    constructor(
-        orbitRadius,
-        orbitSpeed,
-        sunPosition
-    )
+    constructor()
     {
-        /** Setup */
-        this.experience = new Experience();
-        this.scene = this.experience.scene;
-        this.resources = this.experience.resources;
+        super(
+            24.57, // Planet Size
+            0.0036840, // Planet Rotation Speed
+            1.05, // Atmosphere Size Scale
+            new Vector3(0, 0, 0), // Sun Direction
+            '#EAD688', // Atmosphere Day Color
+            '#CEB8B8', // Atmosphere Twilight Color
+            0, // Clouds Intensity
+        );
 
-        /** Properties */
-        this.orbitRadius = orbitRadius;
-        this.orbitSpeed = orbitSpeed;
-        this.sunPosition = sunPosition;
+        /** Orbit Parameters */
+        this.orbit.orbitRadius = 1433.5 / 4;
+        this.orbit.orbitSpeed = 0.001;
 
-        /** Textures */
-        this.textures = {
-            saturn: this.resources.items.saturnTexture,
-            ring: this.resources.items.ringTexture
-        };
+        /** Ring Textures */
+        this.ringTexture = this.resources.items.ringTexture;
 
-        /** Atmosphere */
-        this.atmosphereColor = {
-            atmosphereDayColor: new Color('#EAD6B8'),
-            atmosphereTwilightColor: new Color('#CEB8B8')
-        };
+        this._setTexture(
+            this.resources.items.saturnTexture,
+            this.defaultTexture,
+            this.defaultTexture
+        );
 
-        /** Planet */
-        this.saturn = {
-            orbitRadius: this.orbitRadius,
-            orbitAngle: 0,
-            orbitSpeed: this.orbitSpeed,
-            ringOrbitRadius: this.orbitRadius,
-            ringOrbitAngle: 0,
-            ringOrbitSpeed: this.orbitSpeed,
-        };
-
-        this.setSaturnGeometry();
-        this.setSaturnMaterial();
-        this.setSaturnMesh();
         this.setRingGeometry();
         this.setRingMaterial();
         this.setRingMesh();
-        this.setAtmosphereMaterial();
-        this.setAtmosphereMesh();
 
-        this.scene.add(this.saturn.mesh);
-
-        this.saturn.ringMesh.rotation.x = -26;
-        this.scene.add(this.saturn.ringMesh);
-
-        this.saturn.atmosphereMesh.scale.set(1.05, 1.05, 1.05);
-        this.scene.add(this.saturn.atmosphereMesh);
-    }
-
-    setSaturnGeometry()
-    {
-        this.saturn.geometry = new SphereGeometry(24.57, 32, 32);
-    }
-
-    setSaturnMaterial()
-    {
-        this.saturn.material = new ShaderMaterial({
-            vertexShader: saturnVertexShader,
-            fragmentShader: saturnFragmentShader,
-            uniforms: {
-                uTexture: new Uniform(this.textures.saturn),
-                uSunDirection: new Uniform(new Vector3(0, 0, 0)),
-                uAtmosphereDay: new Uniform(this.atmosphereColor.atmosphereDayColor),
-                uAtmosphereTwilight: new Uniform(this.atmosphereColor.atmosphereTwilightColor),
-            }
-        });
-    }
-
-    setSaturnMesh()
-    {
-        this.saturn.mesh = new Mesh(this.saturn.geometry, this.saturn.material);
+        this.planet.ringMesh.rotation.x = -26;
+        this.scene.add(this.planet.ringMesh);
     }
 
     setRingGeometry()
     {
-        this.saturn.ringGeometry = new RingGeometry(32, 40, 32, 3, Math.PI, Math.PI * 2);
+        this.planet.ringGeometry = new RingGeometry(32, 40, 32, 3, Math.PI, Math.PI * 2);
     }
 
     setRingMaterial()
     {
-        this.textures.ring.flipY = false;
-        this.saturn.ringMaterial = new ShaderMaterial({
+        this.ringTexture.flipY = false;
+        this.planet.ringMaterial = new ShaderMaterial({
             vertexShader: ringVertexShader,
             fragmentShader: ringFragmentShader,
             uniforms: {
-                uTexture: new Uniform(this.textures.ring),
+                uTexture: new Uniform(this.ringTexture),
             },
             side: DoubleSide,
             transparent: true,
@@ -134,58 +79,38 @@ export default class Saturn
 
     setRingMesh()
     {
-        this.saturn.ringMesh = new Mesh(this.saturn.ringGeometry, this.saturn.ringMaterial);
-    }
-
-    setAtmosphereMaterial()
-    {
-        this.saturn.atmosphereMaterial = new ShaderMaterial({
-            vertexShader: atmosphereVertexShader,
-            fragmentShader: atmosphereFragmentShader,
-            uniforms: {
-                uSunDirection: new Uniform(new Vector3(0, 0, 0)),
-                uAtmosphereDay: new Uniform(this.atmosphereColor.atmosphereDayColor),
-                uAtmosphereTwilight: new Uniform(this.atmosphereColor.atmosphereTwilightColor),
-            },
-            side: BackSide,
-            transparent: true
-        });
-    }
-
-    setAtmosphereMesh()
-    {
-        this.saturn.atmosphereMesh = new Mesh(this.saturn.geometry, this.saturn.atmosphereMaterial);
+        this.planet.ringMesh = new Mesh(this.planet.ringGeometry, this.planet.ringMaterial);
     }
 
     update()
     {
         /** Saturn rotation */
-        this.saturn.mesh.rotateY(0.0036840);
+        this.planet.mesh.rotateY(0.0036840);
 
         /** Saturn ring rotation */
-        this.saturn.ringMesh.rotateZ(0.00367000);
+        this.planet.ringMesh.rotateZ(0.00367000);
 
         /** Saturn Orbit */
-        this.saturn.orbitAngle += this.saturn.orbitSpeed;
-        this.saturn.mesh.position.x =
-            -(this.saturn.orbitRadius * Math.cos(this.saturn.orbitAngle));
-        this.saturn.mesh.position.z =
-        this.saturn.orbitRadius * Math.sin(this.saturn.orbitAngle);
+        this.orbit.orbitAngle += this.orbit.orbitSpeed;
+        this.planet.mesh.position.x =
+            -(this.orbit.orbitRadius * Math.cos(this.orbit.orbitAngle));
+        this.planet.mesh.position.z =
+        this.orbit.orbitRadius * Math.sin(this.orbit.orbitAngle);
 
         /** Saturn Ring Orbit */
-        this.saturn.ringOrbitAngle += this.saturn.ringOrbitSpeed;
-        this.saturn.ringMesh.position.x =
-            -(this.saturn.ringOrbitRadius * Math.cos(this.saturn.ringOrbitAngle));
-        this.saturn.ringMesh.position.z =
-        this.saturn.ringOrbitRadius * Math.sin(this.saturn.ringOrbitAngle);
+        this.planet.ringMesh.position.x =
+            -(this.orbit.orbitRadius * Math.cos(this.orbit.orbitAngle));
+        this.planet.ringMesh.position.z =
+        this.orbit.orbitRadius * Math.sin(this.orbit.orbitAngle);
 
-        this.saturn.material.uniforms.uSunDirection.value = this.saturn.mesh.getWorldPosition(this.saturn.mesh.position);
+        this.planet.material.uniforms.uSunDirection.value = this.planet.mesh.getWorldPosition(this.planet.mesh.position);
 
-        this.saturn.atmosphereMesh.position.x =
-            -(this.saturn.orbitRadius * Math.cos(this.saturn.orbitAngle));
-        this.saturn.atmosphereMesh.position.z =
-            this.saturn.orbitRadius * Math.sin(this.saturn.orbitAngle);
+        this.atmosphere.mesh.position.x =
+            -(this.orbit.orbitRadius * Math.cos(this.orbit.orbitAngle));
+        this.atmosphere.mesh.position.z =
+            this.orbit.orbitRadius * Math.sin(this.orbit.orbitAngle);
 
-        this.saturn.atmosphereMaterial.uniforms.uSunDirection.value = this.saturn.atmosphereMesh.getWorldPosition(this.saturn.atmosphereMesh.position);
+        this.atmosphere.material.uniforms.uSunDirection.value =
+            this.atmosphere.mesh.getWorldPosition(this.atmosphere.mesh.position);
     }
 }
